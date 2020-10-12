@@ -1,0 +1,236 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema opisk_t3vatu01
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema opisk_t3vatu01
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `opisk_t3vatu01` DEFAULT CHARACTER SET latin1 ;
+USE `opisk_t3vatu01` ;
+
+-- -----------------------------------------------------
+-- Table `opisk_t3vatu01`.`KantaAsiakas`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `opisk_t3vatu01`.`KantaAsiakas` ;
+
+CREATE TABLE IF NOT EXISTS `opisk_t3vatu01`.`KantaAsiakas` (
+  `IDAsiakasnumero` INT(11) NULL AUTO_INCREMENT,
+  `Etunimi` VARCHAR(45) NOT NULL,
+  `Sukunimi` VARCHAR(45) NOT NULL,
+  `Osoite` VARCHAR(45) NULL DEFAULT NULL,
+  `Puhelinnumero` VARCHAR(45) NULL DEFAULT NULL,
+  UNIQUE INDEX `idAsiakasnumero_UNIQUE` (`IDAsiakasnumero` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `opisk_t3vatu01`.`Tuoteryhma`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `opisk_t3vatu01`.`Tuoteryhma` ;
+
+CREATE TABLE IF NOT EXISTS `opisk_t3vatu01`.`Tuoteryhma` (
+  `IDTuote` INT(11) NOT NULL AUTO_INCREMENT,
+  `Tuotenimi` VARCHAR(45) NOT NULL,
+  `Hinta` INT(11) NOT NULL,
+  `Tuoteryhma` VARCHAR(45) NULL,
+  PRIMARY KEY (`IDTuote`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `opisk_t3vatu01`.`Tuote`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `opisk_t3vatu01`.`Tuote` ;
+
+CREATE TABLE IF NOT EXISTS `opisk_t3vatu01`.`Tuote` (
+  `IDViivakoodi` INT(11) NOT NULL AUTO_INCREMENT,
+  `TuoteID` INT(11) NOT NULL,
+  `Koko` VARCHAR(45) NULL DEFAULT NULL,
+  `Väri` VARCHAR(45) NULL,
+  PRIMARY KEY (`IDViivakoodi`),
+  INDEX `fk_Tuote_Tuoteryhma1_idx` (`TuoteID` ASC),
+  CONSTRAINT `fk_Tuote_Tuoteryhma1`
+    FOREIGN KEY (`TuoteID`)
+    REFERENCES `opisk_t3vatu01`.`Tuoteryhma` (`IDTuote`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 10
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `opisk_t3vatu01`.`Ostotapahtuma`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `opisk_t3vatu01`.`Ostotapahtuma` ;
+
+CREATE TABLE IF NOT EXISTS `opisk_t3vatu01`.`Ostotapahtuma` (
+  `IDosto` INT(11) NOT NULL AUTO_INCREMENT,
+  `ostohetki` TIMESTAMP NULL DEFAULT NULL,
+  `Asiakasnumero` INT(11) NOT NULL,
+  `Viivakoodi` INT(11) NOT NULL,
+  `Kassa` INT(11) NOT NULL,
+  `Myyjä` VARCHAR(45) NOT NULL,
+  INDEX `fk_Ostotapahtuma_KantaAsiakas1_idx` (`Asiakasnumero` ASC),
+  INDEX `fk_Ostotapahtuma_Tuote1_idx` (`Viivakoodi` ASC),
+  PRIMARY KEY (`IDosto`),
+  CONSTRAINT `fk_Ostotapahtuma_KantaAsiakas1`
+    FOREIGN KEY (`Asiakasnumero`)
+    REFERENCES `opisk_t3vatu01`.`KantaAsiakas` (`IDAsiakasnumero`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Ostotapahtuma_Tuote1`
+    FOREIGN KEY (`Viivakoodi`)
+    REFERENCES `opisk_t3vatu01`.`Tuote` (`IDViivakoodi`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `opisk_t3vatu01`.`Valmistaja`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `opisk_t3vatu01`.`Valmistaja` ;
+
+CREATE TABLE IF NOT EXISTS `opisk_t3vatu01`.`Valmistaja` (
+  `TuoteID` INT(11) NOT NULL,
+  `IDvalmistaja` VARCHAR(45) NOT NULL,
+  `Nimi` VARCHAR(45) NULL,
+  INDEX `fk_Valmistaja_Tuoteryhma1_idx` (`TuoteID` ASC),
+  PRIMARY KEY (`IDvalmistaja`),
+  CONSTRAINT `fk_Valmistaja_Tuoteryhma1`
+    FOREIGN KEY (`TuoteID`)
+    REFERENCES `opisk_t3vatu01`.`Tuoteryhma` (`IDTuote`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+USE `opisk_t3vatu01` ;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `opisk_t3vatu01`.`Kuitti`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `opisk_t3vatu01`.`Kuitti` (`IDosto` INT, `ostohetki` INT, `Asiakasnumero` INT, `Tuotenimi` INT, `Hinta` INT, `Koko` INT, `Viivakoodi` INT, `Kassa` INT, `Myyjä` INT);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `opisk_t3vatu01`.`Tuotetiedot`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `opisk_t3vatu01`.`Tuotetiedot` (`IDTuote` INT, `Tuotenimi` INT, `Koko` INT, `Väri` INT, `Hinta` INT, `Nimi` INT, `Tuoteryhma` INT);
+
+-- -----------------------------------------------------
+-- procedure LisaaTuote
+-- -----------------------------------------------------
+
+USE `opisk_t3vatu01`;
+DROP procedure IF EXISTS `opisk_t3vatu01`.`LisaaTuote`;
+
+DELIMITER $$
+USE `opisk_t3vatu01`$$
+CREATE DEFINER=`opisk_t3vatu01`@`localhost` PROCEDURE `LisaaTuote`(
+IN Size VARCHAR(45),
+IN Col VARCHAR(45),
+IN Price VARCHAR(45),
+IN Nm VARCHAR(45),
+IN PrGr VARCHAR(45),
+IN ManNam VARCHAR(45))
+
+BEGIN
+DECLARE ProductID INT DEFAULT 0;
+DECLARE ManufacID INT DEFAULT 0;
+DECLARE BarcodeID INT DEFAULT 0;
+SELECT IDTuote INTO ProductID FROM Tuoteryhma WHERE Tuotenimi=Nm AND Tuoteryhma=PrGr;
+
+IF ProductID=0 THEN
+     INSERT INTO Tuoteryhma VALUES(NULL,Nm,Price,PrGr);
+     SELECT LAST_INSERT_ID() INTO ProductID;      
+END IF;
+
+IF ManNam IS NOT NULL THEN
+       SELECT IDvalmistaja INTO ManufacID FROM Valmistaja WHERE Nimi=ManNam;
+      IF ManufacID=0 then
+           INSERT INTO Valmistaja VALUES(NULL,NULL,ManNam);
+          SELECT LAST_INSERT_ID() INTO ManuFacID;
+     END IF;
+END IF;
+
+IF Size IS NOT NULL AND Col IS NOT NULL THEN
+       SELECT IDViivakoodi INTO BarcodeID FROM Tuote WHERE Koko=Size AND Väri=Col;
+      IF BarcodeID=0 then
+           INSERT INTO Tuote VALUES(NULL,NULL,Size,Col);
+          SELECT LAST_INSERT_ID() INTO BarcodeID;
+     END IF;
+END IF;
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure Lisaa Asiakas
+-- -----------------------------------------------------
+
+USE `opisk_t3vatu01`;
+DROP procedure IF EXISTS `opisk_t3vatu01`.`Lisaa Asiakas`;
+
+DELIMITER $$
+USE `opisk_t3vatu01`$$
+CREATE DEFINER=`opisk_t3vatu01`@`localhost` PROCEDURE `Lisaa Asiakas`(
+IN En VARCHAR(45),
+IN Sn VARCHAR(45),
+IN Os VARCHAR(45),
+IN Pn VARCHAR(45))
+
+BEGIN
+DECLARE CustomerID INT DEFAULT 0;
+
+SELECT idAsiakasnumero INTO CustomerID FROM KantaAsiakas WHERE Etunimi=En AND Sukunimi=Sn
+AND Osoite=Os AND Puhelinnumero=Pn;
+
+IF CustomerID=0 THEN
+     INSERT INTO Tuoteryhma VALUES(NULL,En,Sn,Os,Pn);
+     SELECT LAST_INSERT_ID() INTO CustomerID;      
+END IF;
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- View `opisk_t3vatu01`.`Kuitti`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `opisk_t3vatu01`.`Kuitti`;
+DROP VIEW IF EXISTS `opisk_t3vatu01`.`Kuitti` ;
+USE `opisk_t3vatu01`;
+CREATE  OR REPLACE VIEW `Kuitti` AS
+SELECT IDosto, ostohetki,Asiakasnumero,Tuotenimi,Hinta,Koko,Viivakoodi, Kassa, Myyjä FROM
+Ostotapahtuma JOIN KantaAsiakas ON Ostotapahtuma.Asiakasnumero=KantaAsiakas.IDAsiakasnumero
+JOIN Tuote ON Ostotapahtuma.Viivakoodi=Tuote.IDViivakoodi JOIN Tuoteryhma ON
+Tuote.TuoteID=Tuoteryhma.IDTuote;
+
+-- -----------------------------------------------------
+-- View `opisk_t3vatu01`.`Tuotetiedot`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `opisk_t3vatu01`.`Tuotetiedot`;
+DROP VIEW IF EXISTS `opisk_t3vatu01`.`Tuotetiedot` ;
+USE `opisk_t3vatu01`;
+CREATE  OR REPLACE VIEW `Tuotetiedot` AS
+select IDTuote, Tuotenimi, Koko, Väri, Hinta, Nimi, Tuoteryhma FROM
+Tuoteryhma JOIN Tuote ON Tuoteryhma.IDTuote=Tuote.TuoteID Join Valmistaja ON
+Tuoteryhma.IDTuote=Valmistaja.TuoteID;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
