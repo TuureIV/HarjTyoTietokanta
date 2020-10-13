@@ -1,15 +1,26 @@
-<?php
- $host = 'localhost';
- $dbname = 'opisk_t3vatu01';
- $username = 't3vatu01';
- $password = '1525Tuure1525';
- $con = mysqli_connect($host,$username,$password,$dbname);
+<!DOCTYPE html>
+<html>
+<head>
+<title> Testing php connection script</title>
+</head>
+<body>
+<h3>Teretulemast koittamaan php-lottoa!</h3>
 
- if (mysqli_connect_errno()) {
- echo "Failed to connect to mysli database: " . mysqli_connect_error();
- }
- else {
-echo ”OK, you are connected”;
- }
- mysqli_close($con);
+<?php
+$dbname = 't3vatu01';
+$dbuser = 't3vatu01';
+$dbpass = '';
+$dbhost = 'mysli.oamk.fi';
+$connect = mysqli_connect($dbhost, $dbuser, $dbpass);
+
+if (mysqli_connect_errno()){
+echo "Failed to connect mysli database: ". mysqli_connect_error();
+}
+else {
+echo "OK, You are connected, voitit pelin!";
+}
+mysqli_close($connect);
 ?>
+</body>
+</html>
+
