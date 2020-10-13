@@ -1,5 +1,5 @@
 <?php
-$dbname = 't3vatu01';
+$dbname = 'opisk_t3vatu01';
 $dbuser = 't3vatu01';
 $dbpass = '';
 $dbhost = 'mysli.oamk.fi';
@@ -12,28 +12,31 @@ else {
 echo "OK, You are connected, voitit pelin!";
 }
 
-$sql= "Select * FROM KantaAsiakas";
-$result = mysqli_query($connect,$sql);
+
+
+$result = mysqli_query($connect,"SELECT * FROM KantaAsiakas");
 
 echo "<table border='1'>
  <tr>
- <th>IDAsiakasnumero</th>
+ <th>Asiakasnumero</th>
  <th>Etunimi</th>
  <th>Sukunimi</th>
  <th>Osoite</th>
  <th>Puhelinnumero</th>
  </tr>";
 
+
  while($row = mysqli_fetch_array($result)) {
  echo "<tr>";
- echo "<td>" . $row['IDAsiakasnumero'] . "</td>";
- echo "<td>" . $row['Etunimi'] . "</td>";
- echo "<td>" . $row['Sukunimi'] . "</td>";
- echo "<td>" . $row['Osoite'] . "</td>";
- echo "<td>" . $row['Puhelinnumero'] . "</td>";
+ echo "<td>" . $row['0'] . "</td>";
+ echo "<td>" . $row['1'] . "</td>";
+ echo "<td>" . $row['2'] . "</td>";
+ echo "<td>" . $row['3'] . "</td>";
+ echo "<td>" . $row['4'] . "</td>";
  echo "</tr>";
  }
  echo "</table>";
+
 
 mysqli_close($connect);
 ?>
