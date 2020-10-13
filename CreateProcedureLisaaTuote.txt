@@ -1,0 +1,45 @@
+DELIMITER $$
+CREATE PROCEDURE `LisaaTuote`(
+IN Size VARCHAR(45),
+IN Col VARCHAR(45),
+IN Price VARCHAR(45),
+IN Nm VARCHAR(45),
+IN PrGr VARCHAR(45),
+IN ManNam VARCHAR(45))
+
+BEGIN
+DECLARE ProductID INT DEFAULT 0;
+DECLARE ManufacID INT DEFAULT 0;
+DECLARE BarcodeID INT DEFAULT 0;
+SELECT IDTuote INTO ProductID FROM Tuoteryhma WHERE Tuotenimi=Nm AND Tuoteryhma=PrGr;
+
+IF ProductID=0 THEN
+     INSERT INTO Tuoteryhma VALUES(NULL,Nm,Price,PrGr);
+     SELECT LAST_INSERT_ID() INTO ProductID;
+
+END IF;
+
+
+IF ManNam IS NOT NULL THEN
+       SELECT IDvalmistaja INTO ManufacID FROM Valmistaja WHERE Nimi=ManNam;
+      IF ManufacID=0 then
+           INSERT INTO Valmistaja VALUES(ProductID,NULL,ManNam);
+          SELECT LAST_INSERT_ID() INTO ManuFacID;
+     END IF;
+END IF;
+
+IF Size IS NOT NULL AND Col IS NOT NULL THEN
+       SELECT IDViivakoodi INTO BarcodeID FROM Tuote WHERE Koko=Size AND Väri=Col;
+      IF BarcodeID=0 then
+           INSERT INTO Tuote VALUES(NULL,ProductID,Size,Col);
+          SELECT LAST_INSERT_ID() INTO BarcodeID;
+     END IF;
+END IF;
+
+END$$
+
+DELIMITER ;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
