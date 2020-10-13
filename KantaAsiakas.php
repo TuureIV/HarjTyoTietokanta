@@ -1,18 +1,9 @@
-  
-<!DOCTYPE html>
-<html>
-<head>
-<title> Testing php connection script</title>
-</head>
-<body>
-<h3>Teretulemast koittamaan php-lottoa!</h3>
-
 <?php
 $dbname = 't3vatu01';
 $dbuser = 't3vatu01';
 $dbpass = '';
 $dbhost = 'mysli.oamk.fi';
-$connect = mysqli_connect($dbhost, $dbuser, $dbpass);
+$connect = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
 if (mysqli_connect_errno()){
 echo "Failed to connect mysli database: ". mysqli_connect_error();
@@ -21,7 +12,7 @@ else {
 echo "OK, You are connected, voitit pelin!";
 }
 
-$sql= "Select * FROM KantaAsiakas"
+$sql= "Select * FROM KantaAsiakas";
 $result = mysqli_query($connect,$sql);
 
 echo "<table border='1'>
@@ -32,6 +23,7 @@ echo "<table border='1'>
  <th>Osoite</th>
  <th>Puhelinnumero</th>
  </tr>";
+
  while($row = mysqli_fetch_array($result)) {
  echo "<tr>";
  echo "<td>" . $row['IDAsiakasnumero'] . "</td>";
@@ -42,9 +34,6 @@ echo "<table border='1'>
  echo "</tr>";
  }
  echo "</table>";
-}
+
 mysqli_close($connect);
 ?>
-
-</body>
-</html>
