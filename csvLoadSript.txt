@@ -1,0 +1,4 @@
+LOAD DATA LOCAL INFILE 'C:\Users\Tuure Vairio\OneDrive - Oulun ammattikorkeakoulu\Luennot\S20\Tietokannat S20\Harjoitustyo\HarjTyoTietokanta'
+IGNORE INTO TABLE KantaAsiakas
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\n';

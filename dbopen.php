@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html>
+<head>
+<title> Testing php connection script</title>
+</head>
 <body>
+<h3>Teretulemast koittamaan php-lottoa!</h3>
 
 <?php
- $host = 'mysli.oamk.fi';
- $dbname = 'opisk_t3vatu01';
- $username = 't3vatu01';
- $password = '';
- $con = mysqli_connect($host,$username,$password,$dbname); //
+$dbname = 't3vatu01';
+$dbuser = 't3vatu01';
+$dbpass = '';
+$dbhost = 'mysli.oamk.fi';
+$connect = mysqli_connect($dbhost, $dbuser, $dbpass);
 
- if (mysqli_connect_errno()) {
- echo "Failed to connect to mysli database: " . mysqli_connect_error();
- }
- else {
-echo ”OK, you are connected”;
- }
- mysqli_close($con);
+if (mysqli_connect_errno()){
+echo "Failed to connect mysli database: ". mysqli_connect_error();
+}
+else {
+echo "OK, You are connected, voitit pelin!";
+}
+mysqli_close($connect);
 ?>
 </body>
 </html>
+
