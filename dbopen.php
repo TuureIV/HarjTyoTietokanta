@@ -3,7 +3,7 @@
 <body>
 
 <?php
- $host = 'localhost';
+ $host = 'mysli.oamk.fi';
  //$dbname = 'opisk_t3vatu01';
  $username = 't3vatu01';
  $password = '';
