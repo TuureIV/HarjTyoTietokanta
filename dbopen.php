@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+<html>
+<body>
+
 <?php
  $host = 'localhost';
  $dbname = 'opisk_t3vatu01';
@@ -13,3 +17,5 @@ echo ”OK, you are connected”;
  }
  mysqli_close($con);
 ?>
+</body>
+</html>
