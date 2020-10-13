@@ -1,8 +1,8 @@
 <?php
- $host = 'localhost';
+ $host = 'mysli.oamk.fi';
  $dbname = 'opisk_t3vatu01';
  $username = 't3vatu01';
- $password = '1525Tuure1525';
+ $password = '';
  $con = mysqli_connect($host,$username,$password,$dbname);
 
  if (mysqli_connect_errno()) {
