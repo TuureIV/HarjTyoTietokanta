@@ -9,9 +9,10 @@ $dbpass = '';
 $dbhost = 'mysli.oamk.fi';
 $connect = mysqli_connect($dbhost, $dbuser, $dbpass);
 
-if (mysqli_connect_errno()){
-echo "Failed to connect mysli database: ". mysqli_connect_error();
+if (!$connect){
+die( "Failed to connect mysli database: ". mysqli_connect_error());
 }
+
 $sql= "Select * FROM Kuitti"
 $result = mysqli_query($connect,$sql);
 
@@ -30,7 +31,7 @@ echo "<table border='1'>
  while($row = mysqli_fetch_array($result)) {
  echo "<tr>";
  echo "<td>" . $row['IDosto'] . "</td>";
- echo "<td>" . $row['ostohetki'] . "</td>";
+ echo "<td>" . $row['Ostohetki'] . "</td>";
  echo "<td>" . $row['Asiakasnumero'] . "</td>";
  echo "<td>" . $row['Tuotenimi'] . "</td>";
  echo "<td>" . $row['Hinta'] . "</td>";
