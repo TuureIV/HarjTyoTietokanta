@@ -1,5 +1,5 @@
 <?php
- $host = 'mysli.oamk.fi';
+ $host = 'localhost';
  $dbname = 'opisk_t3vatu01';
  $username = 't3vatu01';
  $password = '';
