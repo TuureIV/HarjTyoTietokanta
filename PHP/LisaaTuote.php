@@ -21,7 +21,7 @@ $sql = "CALL LisaaTuote ('$Koko', '$Vari', '$Hinta','$Tuotenimi','$Tuoteryhma', 
 if (!mysqli_query($connect, $sql)) {
  die('Error: ' . mysqli_error($connect));
 }
-echo "1 record added";
+echo "1 Tuote lisätty";
 
 
 mysqli_close($connect);
