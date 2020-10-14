@@ -11,8 +11,6 @@ echo "Failed to connect mysli database: ". mysqli_connect_error();
 
 
 
-$result = mysqli_query($connect,"SELECT * FROM Kuitti");
-
 $sql= "Select * FROM Kuitti";
 $result = mysqli_query($connect,$sql);
 

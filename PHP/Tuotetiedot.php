@@ -1,4 +1,4 @@
- <?php
+<?php
 $dbname = 'opisk_t3vatu01';
 $dbuser = 't3vatu01';
 $dbpass = '';
@@ -10,10 +10,7 @@ echo "Failed to connect mysli database: ". mysqli_connect_error();
 }
 
 
-
-$result = mysqli_query($connect,"SELECT * FROM Tuotetiedot");
-
-$sql= "Select * FROM Kuitti"
+$sql= "Select * FROM Tuotetiedot";
 $result = mysqli_query($connect,$sql);
 
 echo "<table border='1'>
